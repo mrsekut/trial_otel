@@ -17,6 +17,9 @@ export function rollTheDice(rolls: number, min: number, max: number) {
 
 function rollOnce(i: number, min: number, max: number) {
   return tracer.startActiveSpan(`rollOnce:${i}`, (span: Span) => {
+    if (i === 5) {
+      span.addEvent('Doing something!!');
+    }
     const result = Math.floor(Math.random() * (max - min + 1) + min);
     span.end();
     return result;
