@@ -9,7 +9,7 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "bun run typecheck && bun run format:check && bun run test"
+    "dev": "bun --hot ./src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
