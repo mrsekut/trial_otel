@@ -2,17 +2,28 @@ await import('./instrumentation.js');
 import { otel } from '@hono/otel';
 import { Hono } from 'hono';
 import { rollTheDice } from './rolldice.js';
+import { buildSchema } from 'graphql';
+import { schema as originSchema } from './graphql/schema.js';
+import { graphqlServer } from '@hono/graphql-server';
 
 const app = new Hono();
-
 app.use('*', otel());
-app.get('/', c => c.text('foo'));
+const schema = buildSchema(originSchema);
 
-app.get('/rolldice', async c => {
-  // λ curl http://localhost:3000/rolldice?rolls=12
-  const qRolls = c.req.query('rolls');
-  const rolls = qRolls == null ? 1 : parseInt(qRolls.toString());
-  return c.json(await rollTheDice(rolls, 1, 6));
+const rootResolver = () => ({
+  hello: () => 'Hello Hono GraphQL!',
+  rollTheDice: async ({ rolls = 1, min = 1, max = 6 }) => {
+    return await rollTheDice(rolls, min, max);
+  },
 });
+
+app.use(
+  '/graphql',
+  graphqlServer({
+    schema,
+    rootResolver,
+    graphiql: true,
+  }),
+);
 
 export default app;
