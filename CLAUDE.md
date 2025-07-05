@@ -161,10 +161,10 @@ docs: エラー処理のベストプラクティスを追加
 ### Testing with Bun
 
 ```ts
-import { test, expect } from "bun:test";
+import { test, expect } from 'bun:test';
 
-test("hello world", () => {
-	expect(1).toBe(1);
+test('hello world', () => {
+  expect(1).toBe(1);
 });
 ```
 
