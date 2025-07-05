@@ -2,7 +2,7 @@ import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentation
 import { resourceFromAttributes } from '@opentelemetry/resources';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
-import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
 
 const sdk = new NodeSDK({
   // アプリケーションの実行環境に関する情報を提供
@@ -10,7 +10,9 @@ const sdk = new NodeSDK({
     [ATTR_SERVICE_NAME]: 'hono-app',
   }),
 
-  traceExporter: new ConsoleSpanExporter(),
+  traceExporter: new OTLPTraceExporter({
+    url: 'http://localhost:4317',
+  }),
 
   // ノードの自動インストルメンテーションを有効化
   instrumentations: [getNodeAutoInstrumentations()],
