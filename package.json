@@ -27,6 +27,7 @@
     "@hono/graphql-server": "^0.6.2",
     "@hono/otel": "^0.2.2",
     "@opentelemetry/exporter-trace-otlp-grpc": "^0.202.0",
+    "@opentelemetry/instrumentation-graphql": "^0.50.0",
     "@opentelemetry/sdk-node": "^0.202.0",
     "@opentelemetry/sdk-trace-node": "^2.0.1",
     "graphql": "^16.11.0",

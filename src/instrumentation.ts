@@ -3,6 +3,7 @@ import { resourceFromAttributes } from '@opentelemetry/resources';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
+import { GraphQLInstrumentation } from '@opentelemetry/instrumentation-graphql';
 
 const sdk = new NodeSDK({
   // アプリケーションの実行環境に関する情報を提供
@@ -15,7 +16,10 @@ const sdk = new NodeSDK({
   }),
 
   // ノードの自動インストルメンテーションを有効化
-  instrumentations: [getNodeAutoInstrumentations()],
+  instrumentations: [
+    getNodeAutoInstrumentations(),
+    new GraphQLInstrumentation({ depth: 2 }),
+  ],
 });
 
 sdk.start();
